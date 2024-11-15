@@ -38,9 +38,32 @@ public class ProblemSolutions {
 
         for (int i = 0; i < n - 1; i++) {
 
-            // YOU CODE GOES HERE -- COMPLETE THE INNER LOOP OF THIS
-            // "SELECTION SORT" ALGORITHM.
-            // DO NOT FORGET TO ADD YOUR NAME / SECTION ABOVE
+            int IndexLocation = i;
+
+            for (int a = i + 1; a < n; a++){
+                if(ascending){
+
+                    // ascending: getting min value
+                    if(values[a] < values[IndexLocation]){
+                        IndexLocation = a;
+                        System.out.println("ascending is" + IndexLocation);
+                    }
+                }
+                else {
+                    // descending: getting max value
+                    if (values[a] > values[IndexLocation]) {
+                    IndexLocation = a;
+                    System.out.println("descending is " + IndexLocation);
+                }
+                }
+            }
+
+            // we then need to swap that value with the value at the index i
+            if (IndexLocation != i){
+                int swapValue = values[i];
+                values[i]= values[IndexLocation];
+                values[IndexLocation] = swapValue;
+            }
 
         }
 
@@ -92,17 +115,8 @@ public class ProblemSolutions {
 
     private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right)
     {
-        // YOUR CODE GOES HERE, THIS METHOD IS NO MORE THAN THE STANDARD MERGE PORTION
-        // OF A MERGESORT, EXCEPT THE NUMBERS DIVISIBLE BY K MUST GO FIRST WITHIN THE
-        // SEQUENCE PER THE DISCUSSION IN THE PROLOGUE ABOVE.
-        //
-        // NOTE: YOU CAN PROGRAM THIS WITH A SPACE COMPLEXITY OF O(1) OR O(N LOG N).
-        // AGAIN, THIS IS REFERRING TO SPACE COMPLEXITY. O(1) IS IN-PLACE, O(N LOG N)
-        // ALLOCATES AUXILIARY DATA STRUCTURES (TEMPORARY ARRAYS). IT WILL BE EASIER
-        // TO CODE WITH A SPACE COMPLEXITY OF O(N LOG N), WHICH IS FINE FOR PURPOSES
-        // OF THIS PROGRAMMING EXERCISES.
-
         return;
+        //pending code
 
     }
 
@@ -154,9 +168,21 @@ public class ProblemSolutions {
 
     public static boolean asteroidsDestroyed(int mass, int[] asteroids) {
 
-        // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT()
+        // sorting the asteroids ascending
+        Arrays.sort(asteroids);
 
-        return false;
+        for (int asteroid : asteroids){
+
+            // if the plane's mass is more than the asteroid's mass then it can destroy it and gain mass
+            if (mass > asteroid){
+                mass += asteroid;
+            } else {
+                // if not, planet can't destroy the asteroid
+                return false;
+            }
+        }
+
+        return true;
 
     }
 
