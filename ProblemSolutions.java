@@ -46,14 +46,14 @@ public class ProblemSolutions {
                     // ascending: getting min value
                     if(values[a] < values[IndexLocation]){
                         IndexLocation = a;
-                        System.out.println("ascending is" + IndexLocation);
+                        //System.out.println("ascending is" + IndexLocation);
                     }
                 }
                 else {
                     // descending: getting max value
                     if (values[a] > values[IndexLocation]) {
                     IndexLocation = a;
-                    System.out.println("descending is " + IndexLocation);
+                    //System.out.println("descending is " + IndexLocation);
                 }
                 }
             }
@@ -115,8 +115,64 @@ public class ProblemSolutions {
 
     private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right)
     {
-        return;
-        //pending code
+        // sizes of the arrays
+        int size1 = mid - left + 1;
+        int size2 = right - mid;
+
+        // two subarrays to merge later
+        int[] leftArray = new int[size1];
+        int[] rightArray = new int[size2];
+
+        // copying first the left side
+        for (int i = 0; i < size1; i++){
+            leftArray[i] = arr[left + i];
+        }
+
+        // then copying the right side
+        for (int j = 0; j < size2; j++){
+            rightArray[j] = arr[mid + 1 + j];
+        }
+
+        // merging both temporary arrays back into arr
+        int i = 0;
+        int j = 0;
+        int kParameter = left;
+
+        // merging both temporary arrays back into arr
+        while (i < size1 && j < size2){
+            if (leftArray[i] % k == 0 && rightArray[j] % k == 0){
+                // both divisible by k, compare normally (ascending)
+                if (leftArray[i] <= rightArray[j]){
+                    arr[kParameter++] = leftArray[i++];
+                } else {
+                    arr[kParameter++] = rightArray[j++];
+                }
+            } else if (leftArray[i] % k == 0){
+                // left is divisible by k, it comes first
+                arr[kParameter++] = leftArray[i++];
+            } else if (rightArray[j] % k == 0){
+                // right is divisible by k, it comes first
+                arr[kParameter++] = rightArray[j++];
+            } else {
+                // both not divisible by k, if left is less than right or otherwise
+                if (leftArray[i] <= rightArray[j]){
+                    arr[kParameter++] = leftArray[i++];
+                } else {
+                    arr[kParameter++] = rightArray[j++];
+                }
+            }
+        }
+
+        // copying any remaining values of leftArray
+        while (i < size1){
+            arr[kParameter++] = leftArray[i++];
+        }
+
+        // copying any remaining values of rightArray
+        while (j < size2){
+            arr[kParameter++] = rightArray[j++];
+        }
+
 
     }
 
@@ -218,9 +274,32 @@ public class ProblemSolutions {
 
     public static int numRescueSleds(int[] people, int limit) {
 
-        // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT
+        // sorting people's weights ascending
+        Arrays.sort(people);
 
-        return -1;
+        int lightestPerson = 0;
+        int heaviestPerson = people.length  - 1;
+
+        // sleds counter
+        int numSleds = 0;
+
+        while (lightestPerson <= heaviestPerson){
+
+            // if the lightest + heaviest person can share the sled
+            if (people[lightestPerson] + people[heaviestPerson] <= limit){
+
+                // go on with next lightest person/heaviest person
+                lightestPerson++;
+                heaviestPerson--;
+            } else {
+                // heaviest goes alone
+                heaviestPerson--;
+            }
+            // keep count of the sled used
+            numSleds++;
+        }
+
+        return numSleds;
 
     }
 
