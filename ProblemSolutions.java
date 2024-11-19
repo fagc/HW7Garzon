@@ -1,7 +1,7 @@
 /******************************************************************
- *
+ * <p>
  *   Francisco Garzon / COMP 400C
- *
+ * <p>
  *   This java file contains the problem solutions for the methods selectionSort,
  *   mergeSortDivisibleByKFirst, asteroidsDestroyed, and numRescueCanoes methods.
  *
@@ -9,6 +9,7 @@
 
 import java.util.Arrays;
 
+@SuppressWarnings("JavadocReference")
 public class ProblemSolutions {
 
     /**
@@ -290,11 +291,10 @@ public class ProblemSolutions {
 
                 // go on with next lightest person/heaviest person
                 lightestPerson++;
-                heaviestPerson--;
             } else {
                 // heaviest goes alone
-                heaviestPerson--;
             }
+            heaviestPerson--;
             // keep count of the sled used
             numSleds++;
         }
