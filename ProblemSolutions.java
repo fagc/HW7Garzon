@@ -7,7 +7,10 @@
  *
  ********************************************************************/
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 @SuppressWarnings("JavadocReference")
 public class ProblemSolutions {
@@ -116,62 +119,60 @@ public class ProblemSolutions {
 
     private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right)
     {
-        // sizes of the arrays
-        int size1 = mid - left + 1;
-        int size2 = right - mid;
+        // first we need to create an array with the merged items
+        int[] bothArrays = new int[right - left + 1];
+        int indexP = 0;
 
-        // two subarrays to merge later
-        int[] leftArray = new int[size1];
-        int[] rightArray = new int[size2];
+        // index for left and right arrays
+        int leftArr = left;
+        int rightArr = mid + 1;
 
-        // copying first the left side
-        for (int i = 0; i < size1; i++){
-            leftArray[i] = arr[left + i];
-        }
+        // getting the numbers divisible by k from left to right
+        while (leftArr <= mid){
+            if (arr[leftArr] % k == 0){
+                bothArrays[indexP++] = arr[leftArr];
 
-        // then copying the right side
-        for (int j = 0; j < size2; j++){
-            rightArray[j] = arr[mid + 1 + j];
-        }
-
-        // merging both temporary arrays back into arr
-        int i = 0;
-        int j = 0;
-        int kParameter = left;
-
-        // merging both temporary arrays back into arr
-        while (i < size1 && j < size2){
-            if (leftArray[i] % k == 0 && rightArray[j] % k == 0){
-                // both divisible by k, compare normally (ascending)
-                if (leftArray[i] <= rightArray[j]){
-                    arr[kParameter++] = leftArray[i++];
-                } else {
-                    arr[kParameter++] = rightArray[j++];
-                }
-            } else if (leftArray[i] % k == 0){
-                // left is divisible by k, it comes first
-                arr[kParameter++] = leftArray[i++];
-            } else if (rightArray[j] % k == 0){
-                // right is divisible by k, it comes first
-                arr[kParameter++] = rightArray[j++];
-            } else {
-                // both not divisible by k, if left is less than right or otherwise
-                if (leftArray[i] <= rightArray[j]){
-                    arr[kParameter++] = leftArray[i++];
-                } else {
-                    arr[kParameter++] = rightArray[j++];
-                }
             }
+            leftArr++;
         }
 
-        // copying any remaining values of leftArray
-        while (i < size1){
-            arr[kParameter++] = leftArray[i++];
+        while (rightArr <= right){
+            if( arr[rightArr]%k ==0){
+                bothArrays[indexP++] = arr[rightArr];
+            }
+            rightArr++;
         }
 
-        // copying any remaining values of rightArray
-        while (j < size2){
-            arr[kParameter++] = rightArray[j++];
+        // resetting both positions
+        leftArr = left;
+        rightArr = mid + 1;
+
+        // creating a new list for the rest of the numbers
+        ArrayList<Integer> otherNumbersNotK = new ArrayList<>();
+
+        // then getting the numbers not divisible by k, in ascending order
+        while (leftArr <= mid){
+            if (arr[leftArr] % k != 0){
+                otherNumbersNotK.add(arr[leftArr]);
+            }
+            leftArr++;
+        }
+        while (rightArr <= right){
+            if(arr[rightArr]%k != 0){
+                otherNumbersNotK.add(arr[rightArr]);
+            }
+            rightArr++;
+        }
+
+        // sorting the other numbers (non-divisble) by k
+        Collections.sort(otherNumbersNotK);
+
+        for (int nonDivisibles : otherNumbersNotK){
+            bothArrays[indexP++] = nonDivisibles;
+        }
+        // then getting both arrays back into their original array
+        for (int x = 0; x < bothArrays.length; x++){
+            arr[left + x] = bothArrays[x];
         }
 
 
